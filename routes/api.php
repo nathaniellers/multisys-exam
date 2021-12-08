@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [ApiController::class, 'login']);
-Route::post('/registration', [ApiController::class, 'registration']);
+Route::post('/register', [ApiController::class, 'registration']);
 
 Route::group([
     'middleware' => 'verifiedAccess'

@@ -25,10 +25,8 @@ class AuthTest extends TestCase
         ]);
         DB::rollBack();
         return $response->assertJsonStructure([
-            'message',
-            'error',
-            'code'
-        ])->assertStatus(Response::HTTP_OK);
+            'access_token'
+        ])->assertStatus(Response::HTTP_CREATED);
     }
 
     public function test_login_invalid_credentials()
@@ -39,9 +37,7 @@ class AuthTest extends TestCase
             'password' => 'password'
         ]);
         $response->assertJsonStructure([
-            'message',
-            'error',
-            'code'
+            'message'
         ])->assertStatus(Response::HTTP_UNAUTHORIZED);
         return $this->assertEquals($response['message'], ResponseMessage::error['login']);
     }

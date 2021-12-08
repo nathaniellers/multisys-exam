@@ -31,11 +31,9 @@ class OrderTest extends TestCase
         ]);
         DB::rollBack();
         $response->assertJsonStructure([
-            'message',
-            'error',
-            'code'
-        ])->assertStatus(Response::HTTP_OK);
-        return $this->assertEquals($response['message'], ResponseMessage::success['base']);
+            'message'
+        ])->assertStatus(Response::HTTP_CREATED);
+        return $this->assertEquals($response['message'], ResponseMessage::success['order']);
     }
 
     public function test_order_invalid()
@@ -50,9 +48,7 @@ class OrderTest extends TestCase
         ]);
         DB::rollBack();
         $response->assertJsonStructure([
-            'message',
-            'error',
-            'code'
+            'message'
         ])->assertStatus(Response::HTTP_BAD_REQUEST);
         return $this->assertEquals($response['message'], ResponseMessage::error['order']);
     }

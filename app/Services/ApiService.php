@@ -47,11 +47,7 @@ class ApiService implements ApiServiceInterface
             }
             $user = $this->repository->create($info);
             DB::commit();
-            $payload = JWTFactory::sub($user['id'])->userInfo($user)->make();
-            $token = JWTAuth::encode($payload);
-            return Response::json([
-                'message' => 'User successfully registered'
-            ],Response::HTTP_BAD_REQUEST);
+            return response()->json(['message' => ResponseMessage::success['registration']])->setStatusCode(Response::HTTP_CREATED);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

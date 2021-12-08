@@ -21,15 +21,12 @@ class RegistrationTest extends TestCase
     {
      
         DB::beginTransaction();
-        $response = $this->postJson('/api/registration', [
+        $response = $this->postJson('/api/register', [
             'email' => $this->faker->email(),
             'password' => 'password'
         ]);
-
         return $response->assertJsonStructure([
-            'message',
-            'error',
-            'code'
+            'message'
         ])->assertStatus(Response::HTTP_CREATED);
     }
 
@@ -37,7 +34,7 @@ class RegistrationTest extends TestCase
     {
      
         DB::beginTransaction();
-        $response = $this->postJson('/api/registration', [
+        $response = $this->postJson('/api/register', [
             'email' => $this->faker->name(),
             'password' => 'password'
         ]);
@@ -52,7 +49,7 @@ class RegistrationTest extends TestCase
     {
      
         DB::beginTransaction();
-        $response = $this->postJson('/api/registration', [
+        $response = $this->postJson('/api/register', [
             'email' => null,
             'password' => 'password'
         ]);
@@ -67,7 +64,7 @@ class RegistrationTest extends TestCase
     {
      
         DB::beginTransaction();
-        $response = $this->postJson('/api/registration', [
+        $response = $this->postJson('/api/register', [
             'email' => $this->faker->email(),
             'password' => null
         ]);
@@ -86,14 +83,13 @@ class RegistrationTest extends TestCase
             'email' => $this->faker->email(),
             'password' => 'password'
         ]);
-        $response = $this->postJson('/api/registration', [
+        $response = $this->postJson('/api/register', [
             'email' => $user->email,
             'password' => 'password'
         ]);
         $response->assertJsonStructure([
-            'message',
-            'errors'
-        ])->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        return $this->assertEquals($response['errors']['email'][0], ResponseMessage::error['email_unique']);
+            'message'
+        ])->assertStatus(Response::HTTP_BAD_REQUEST);
+        return $this->assertEquals($response['message'], ResponseMessage::error['email_unique']);
     }
 }

@@ -30,7 +30,7 @@ class ProductService implements ProductServiceInterface
                 return response()->json(['message' => ResponseMessage::error['order']])->setStatusCode(Response::HTTP_BAD_REQUEST);
             }
             $product->update(['available_stock' => $total]);
-            return response()->json(['message' => ResponseMessage::success['order']])->setStatusCode(Response::HTTP_BAD_REQUEST); 
+            return response()->json(['message' => ResponseMessage::success['order']])->setStatusCode(Response::HTTP_CREATED); 
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
